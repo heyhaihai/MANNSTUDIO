@@ -1,0 +1,1201 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>漫恩美學・MANN STUDIO</title>
+ <!-- 這些 SDK 在獨立環境中不會載入，但不影響主要版面呈現 -->
+ <script src="/_sdk/element_sdk.js"></script>
+ <style>
+   body {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+     background: #F5F3F0;
+     min-height: 100%;
+     overflow-x: hidden;
+   }
+
+
+   * {
+     box-sizing: border-box;
+   }
+
+
+   .app-wrapper {
+     position: relative;
+     z-index: 1;
+     width: 100%;
+     max-width: 480px;
+     margin: 0 auto;
+     background: #FFFFFF;
+     min-height: 100%;
+     box-shadow: 0 0 20px rgba(139, 126, 116, 0.08);
+   }
+
+
+   .header {
+     text-align: center;
+     padding: 48px 20px 32px;
+     background: #FFFFFF;
+     border-bottom: 1px solid #F0EBE6;
+   }
+
+
+   .header h1 {
+     margin: 0 0 12px 0;
+     font-size: 28px;
+     font-weight: 600;
+     color: #8B7E74;
+     letter-spacing: 2px;
+     word-wrap: break-word;
+   }
+
+
+   .header p {
+     margin: 0;
+     font-size: 14px;
+     color: #A89B91;
+     font-weight: 400;
+     letter-spacing: 1px;
+   }
+
+
+   .tabs {
+     position: sticky;
+     top: 0;
+     background: #FFFFFF;
+     backdrop-filter: none;
+     display: flex;
+     gap: 0;
+     padding: 0 20px;
+     z-index: 100;
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+     border-bottom: 1px solid #F0EBE6;
+   }
+
+
+   .tabs::-webkit-scrollbar {
+     display: none;
+   }
+
+
+   .quick-links {
+     position: sticky;
+     top: 54px;
+     background: rgba(255, 255, 255, 0.95);
+     backdrop-filter: blur(10px);
+     display: flex;
+     gap: 8px;
+     padding: 12px;
+     z-index: 99;
+     box-shadow: 0 2px 10px rgba(107, 91, 79, 0.1);
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+   }
+
+
+   .quick-links::-webkit-scrollbar {
+     display: none;
+   }
+
+
+   .quick-link-btn {
+     flex: 1;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 6px;
+     padding: 10px 16px;
+     background: #FDFCFB;
+     color: #6B5B4F;
+     text-decoration: none;
+     border-radius: 12px;
+     font-size: 13px;
+     font-weight: 500;
+     border: none;
+     transition: all 0.3s ease;
+     white-space: nowrap;
+     box-shadow: 0 1px 3px rgba(139, 126, 116, 0.08);
+   }
+
+
+   .quick-link-btn:hover {
+     background: #F5F2EE;
+     transform: translateY(-1px);
+     box-shadow: 0 2px 5px rgba(139, 126, 116, 0.12);
+   }
+
+
+   .tab {
+     flex: 0 0 auto;
+     min-width: 70px;
+     padding: 10px 12px;
+     text-align: center;
+     background: transparent;
+     border: none;
+     border-bottom: 2px solid transparent;
+     border-radius: 0;
+     font-size: 13px;
+     font-weight: 500;
+     color: #A89B91;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     position: relative;
+     white-space: nowrap;
+   }
+
+
+   .tab:hover {
+     color: #8B7E74;
+   }
+
+
+   .tab.active {
+     color: #8B7E74;
+     background: transparent;
+     border-bottom: 2px solid #D4C4B7;
+   }
+
+
+   .tab.active:hover {
+     color: #8B7E74;
+   }
+  
+   .tab:not(.active):hover {
+     color: #8B7E74;
+   }
+
+
+   .content {
+     padding: 0 0 120px 0;
+   }
+
+
+   .tab-panel {
+     display: none;
+     padding: 24px 20px;
+     animation: fadeIn 0.3s ease;
+   }
+
+
+   .tab-panel.active {
+     display: block;
+   }
+
+
+   @keyframes fadeIn {
+     from {
+       opacity: 0;
+       transform: translateY(10px);
+     }
+     to {
+       opacity: 1;
+       transform: translateY(0);
+     }
+   }
+
+
+   .section-title {
+     font-size: 16px;
+     font-weight: 500;
+     color: #8B7E74;
+     margin: 0 0 24px 0;
+     padding-bottom: 12px;
+     border-bottom: 1px solid #F0EBE6;
+     letter-spacing: 1px;
+   }
+
+
+   .price-item {
+     background: transparent;
+     border-radius: 0;
+     padding: 16px 0;
+     margin-bottom: 0;
+     border: none;
+     border-bottom: 1px solid #F5F2EF;
+   }
+  
+   .price-item:last-child {
+     border-bottom: none;
+   }
+
+
+   .price-item-header {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-bottom: 12px;
+   }
+
+
+   .price-item-name {
+     font-size: 15px;
+     font-weight: 500;
+     color: #8B7E74;
+   }
+
+
+   .price-item-price {
+     font-size: 16px;
+     font-weight: 600;
+     color: #A89B91;
+   }
+
+
+   .price-item-desc {
+     font-size: 13px;
+     color: #B5ABA1;
+     line-height: 1.6;
+     margin: 0;
+   }
+
+
+   .info-card {
+     background: #FDFCFB;
+     border-radius: 16px;
+     padding: 0;
+     margin-bottom: 16px;
+     border: none;
+     overflow: hidden;
+     box-shadow: 0 1px 3px rgba(139, 126, 116, 0.08);
+   }
+
+
+   .info-card h3 {
+     font-size: 14px;
+     font-weight: 600;
+     color: #6B5B4F;
+     margin: 0;
+     padding: 18px 20px;
+     background: #F5F2EE;
+     border-bottom: none;
+     letter-spacing: 0.3px;
+   }
+  
+   .info-card-content {
+     padding: 20px;
+   }
+
+
+   .info-card.highlight {
+     background: #F9F6F3;
+     border: 1px solid #E8E3DE;
+   }
+
+
+   .info-card.highlight h3 {
+     color: #8B7E74;
+   }
+
+
+   .info-card.highlight .info-list li {
+     color: #8B7E74;
+   }
+
+
+   .info-list {
+     list-style: none;
+     padding: 0;
+     margin: 0;
+   }
+
+
+   .info-list li {
+     padding: 10px 0 10px 20px;
+     color: #8B7E74;
+     font-size: 14px;
+     line-height: 1.8;
+     position: relative;
+     border-bottom: none;
+   }
+
+
+   .info-list li:last-child {
+     border-bottom: none;
+   }
+
+
+   .info-list li::before {
+     content: '·';
+     position: absolute;
+     left: 4px;
+     color: #D4C4B7;
+     font-size: 16px;
+     line-height: 1.8;
+   }
+
+
+   .info-list li.highlight-text {
+     color: #8B7E74;
+     font-weight: 500;
+     background: #F9F6F3;
+     border-radius: 6px;
+     padding: 10px 10px 10px 20px;
+   }
+
+
+   .plan-card {
+     background: #FDFCFB;
+     border-radius: 16px;
+     padding: 0;
+     margin-bottom: 16px;
+     border: none;
+     position: relative;
+     overflow: hidden;
+     box-shadow: 0 1px 3px rgba(139, 126, 116, 0.08);
+   }
+
+
+   .plan-card::before {
+     display: none;
+   }
+
+
+   .plan-card-content {
+     position: relative;
+     z-index: 1;
+     padding: 20px;
+   }
+
+
+   .plan-title {
+     font-size: 14px;
+     font-weight: 600;
+     color: #6B5B4F;
+     margin: 0 0 10px 0;
+   }
+
+
+   .plan-amount {
+     font-size: 22px;
+     font-weight: 600;
+     color: #8B7E74;
+     margin: 0 0 8px 0;
+   }
+
+
+   .plan-bonus {
+     display: inline-block;
+     background: #F5F1ED;
+     color: #8B7E74;
+     padding: 4px 12px;
+     border-radius: 12px;
+     font-size: 12px;
+     font-weight: 500;
+     margin-bottom: 8px;
+     border: 1px solid #E8E3DE;
+   }
+
+
+   .plan-desc {
+     font-size: 13px;
+     color: #B5ABA1;
+     line-height: 1.7;
+     margin: 8px 0 0 0;
+   }
+
+
+   .contact-button {
+     display: block;
+     width: 100%;
+     background: linear-gradient(135deg, #B8956A 0%, #A6856B 100%);
+     color: white;
+     border: none;
+     border-radius: 12px;
+     padding: 16px;
+     font-size: 16px;
+     font-weight: 600;
+     cursor: pointer;
+     margin-top: 12px;
+     box-shadow: 0 4px 15px rgba(184, 149, 106, 0.3);
+     transition: all 0.3s ease;
+     text-decoration: none;
+     text-align: center;
+   }
+
+
+   .contact-button:hover {
+     transform: translateY(-2px);
+     box-shadow: 0 6px 20px rgba(184, 149, 106, 0.4);
+   }
+
+
+   .sub-tab-panel {
+     display: none;
+   }
+
+
+   .sub-tab-panel.active {
+     display: block;
+   }
+ </style>
+ <style>@view-transition { navigation: auto; }</style>
+ <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+</head>
+<body>
+ <div class="app-wrapper">
+  <header class="header">
+   <h1 id="store-name">漫恩美學</h1>
+   <p id="store-subtitle">美睫設計．睫毛管理．紋繡．淡色</p>
+  </header>
+  <nav class="tabs">
+   <button class="tab active" data-tab="price">價目表</button>
+   <button class="tab" data-tab="plan">常態優惠</button>
+   <button class="tab" data-tab="notice">預約須知</button>
+   <button class="tab" data-tab="before">術前準備</button>
+   <button class="tab" data-tab="after">術後保養</button>
+   <button class="tab" data-tab="faq">FAQ</button>
+  </nav>
+  <div class="quick-links">
+   <a href="https://lin.ee/tYu6u0A" target="_blank" rel="noopener noreferrer" class="quick-link-btn"> LINE預約 </a>
+   <a href="https://www.instagram.com/mann___studio/" target="_blank" rel="noopener noreferrer" class="quick-link-btn"> Instagram </a>
+  </div>
+  <main class="content">
+   <div class="tab-panel active" id="price">
+    <h2 class="section-title">服務價目表</h2>
+    <div style="display: flex; gap: 10px; margin-bottom: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+     <button class="price-sub-tab active" data-subtab="waxing" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #8B7E74; border: 1px solid #D4C4B7; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 美睫設計 </button>
+     <button class="price-sub-tab" data-subtab="lashes" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 睫毛管理 </button>
+     <button class="price-sub-tab" data-subtab="embroidery" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 紋繡 </button>
+     <button class="price-sub-tab" data-subtab="tinting" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 淡色 </button>
+    </div>
+    <div class="sub-tab-panel active" id="waxing">
+     <div class="info-card" style="background: #FFF9F5; border: 1px solid #FFE5D0; margin-bottom: 16px;">
+      <div class="info-card-content" style="padding: 16px 20px;">
+       <p style="margin: 0 0 12px 0; font-size: 14px; color: #8B7E74; line-height: 1.7;">不只是幫您「接」上睫毛，更會根據您的眼型、生活習慣與原生睫毛健康度，提供最適合的專屬提案。</p>
+       <ul class="info-list">
+        <li style="padding-top: 6px; padding-bottom: 6px;"><strong style="color: #6B5B4F; font-weight: 600;">客製化設計：</strong>針對單眼皮、內雙、垂眼等不同眼型調整捲度與長度。</li>
+        <li style="padding-top: 6px; padding-bottom: 6px;"><strong style="color: #6B5B4F; font-weight: 600;">無感嫁接：</strong>嚴格遵守「安全距離」（離開毛囊 0.1mm），不影響真睫毛生長，過程舒適到讓您睡著。</li>
+        <li style="padding-top: 6px; padding-bottom: 6px;"><strong style="color: #6B5B4F; font-weight: 600;">高品質材料：</strong>採用輕盈、柔軟的抗菌人工纖維毛與通過認證的低敏黑膠。</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>美睫設計服務</h3>
+      <div class="info-card-content">
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">小清新款</span> <span class="price-item-price">NT$ 1,400</span>
+        </div>
+       </div>
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">自然妝感</span> <span class="price-item-price">NT$ 1,600</span>
+        </div>
+       </div>
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">萌萌濃密</span> <span class="price-item-price">NT$ 1,800</span>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>加購與其他服務</h3>
+      <div class="info-card-content">
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">接睫後做翹</span> <span class="price-item-price">NT$ 1,000</span>
+        </div>
+       </div>
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">加購下睫毛</span> <span class="price-item-price">NT$ 400</span>
+        </div>
+       </div>
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">睫毛平復術</span> <span class="price-item-price">NT$ 500</span>
+        </div>
+       </div>
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">睫毛卸除</span> <span class="price-item-price">NT$ 200</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="lashes">
+     <div class="info-card" style="background: #FFF9F5; border: 1px solid #FFE5D0; margin-bottom: 16px;">
+      <div class="info-card-content" style="padding: 16px 20px;">
+       <p style="margin: 0 0 8px 0; font-size: 13px; color: #8B7E74; line-height: 1.7;">說明、溝通至雙方同意後開始施作，全程使用3~4道韓國保濕精華、精油保養、染黑精華、日本酸鹼平衡精華，不會傷睫毛反而更加強護理</p>
+       <p style="margin: 0; font-size: 13px; color: #8B7E74; line-height: 1.7;">日常保養非常重要，避免不好的習慣影響整齊及持久度，建議加購睫毛雨衣進行日常護理</p>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>睫毛管理服務</h3>
+      <div class="info-card-content">
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">韓國精油睫毛管理</span> <span class="price-item-price">NT$ 1,200</span>
+        </div>
+        <p class="price-item-desc">45-60分鐘｜客製化翹度/束感/散狀/染黑</p>
+       </div>
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">下睫毛</span> <span class="price-item-price">NT$ 500</span>
+        </div>
+        <p class="price-item-desc">30分鐘｜經評估才可以預約</p>
+       </div>
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">韓系塑眉</span> <span class="price-item-price">NT$ 1,000</span>
+        </div>
+        <p class="price-item-desc">30分鐘｜有別於歐美野生眉更適合亞洲人眉型，含修雜毛</p>
+       </div>
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">卸除嫁接</span> <span class="price-item-price">NT$ 400</span>
+        </div>
+        <p class="price-item-desc">20分鐘</p>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="embroidery">
+     <div class="info-card">
+      <h3>紋繡服務</h3>
+      <div class="info-card-content">
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">新增項目名稱</span> <span class="price-item-price">NT$ ---</span></div>
+        <p class="price-item-desc">內容說明建置中...</p>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="tinting">
+     <div class="info-card">
+      <h3>淡色服務</h3>
+      <div class="info-card-content">
+       <div class="price-item">
+        <div class="price-item-header"><span class="price-item-name">新增項目名稱</span> <span class="price-item-price">NT$ ---</span></div>
+        <p class="price-item-desc">內容說明建置中...</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="tab-panel" id="plan">
+    <h2 class="section-title">常態優惠</h2>
+    <div class="info-card" style="background: #FFF9F5; border: 1px solid #FFE5D0;">
+     <div class="info-card-content" style="padding: 16px 20px;">
+      <p style="margin: 0; font-size: 13px; color: #8B7E74; line-height: 1.7;">以下為包堂組合優惠，IG有不定期包堂、組合優惠、活動價請記得關注</p>
+     </div>
+    </div>
+    <div class="plan-card">
+     <div class="plan-card-content">
+      <div class="plan-title">
+       首次消費優惠
+      </div>
+      <div class="plan-amount">
+       9折優惠
+      </div>
+      <p class="plan-desc">第一次到店消費即享9折優惠，出示追蹤IG，歡迎新朋友體驗</p>
+     </div>
+    </div>
+    <div class="plan-card">
+     <div class="plan-card-content">
+      <div class="plan-title">
+       壽星 / 好友推薦
+      </div>
+      <div class="plan-amount">
+       折抵 NT$ 100
+      </div>
+      <p class="plan-desc">當月壽星或經由朋友介紹來店皆立即折抵100元</p>
+     </div>
+    </div>
+    <div class="plan-card">
+     <div class="plan-card-content">
+      <div class="plan-title">
+       產品優惠
+      </div>
+      <div class="plan-amount">
+       95折優惠
+      </div>
+      <p class="plan-desc">消費當日購買產品享95折優惠</p>
+     </div>
+    </div>
+    <div class="plan-card">
+     <div class="plan-card-content">
+      <div class="plan-title">
+       限動／貼文分享
+      </div>
+      <div class="plan-amount">
+       折抵 NT$ 50
+      </div>
+      <p class="plan-desc">限動／貼文標記分享，立即折抵50元</p>
+     </div>
+    </div>
+    <div class="info-card">
+     <h3>優惠使用說明</h3>
+     <div class="info-card-content">
+      <ul class="info-list">
+       <li>壽星優惠須出示身分證以核對</li>
+       <li>好友推薦請主動告知介紹人，雙方各得100元折價券</li>
+       <li>介紹人折價券可無限累積，每次消費限用一張</li>
+       <li>優惠1(首次9折)、2(壽星/推薦)、4(分享)僅擇一使用</li>
+       <li>限動/貼文若IG為未公開帳號請出示畫面確認</li>
+      </ul>
+     </div>
+    </div>
+    <div class="info-card">
+     <h3>特別提醒</h3>
+     <div class="info-card-content">
+      <ul class="info-list">
+       <li>以上為常態優惠，追蹤IG不定期會有限時優惠</li>
+       <li>店家保有修改及終止活動權利</li>
+       <li>若有任何變更或詳細注意事項不另行通知</li>
+      </ul>
+     </div>
+    </div>
+   </div>
+   <div class="tab-panel" id="notice">
+    <h2 class="section-title">預約須知</h2>
+    <div class="info-card">
+     <h3>預約方式</h3>
+     <div class="info-card-content">
+      <ul class="info-list">
+       <li>全預約制，官方LINE訊息預約</li>
+       <li>預約保留15分鐘，預約遲到將無法使用任何優惠</li>
+      </ul>
+     </div>
+    </div>
+    <div class="info-card">
+     <h3>改期與取消</h3>
+     <div class="info-card-content">
+      <ul class="info-list">
+       <li>取消、更改時間請於預約日的一週前告知</li>
+       <li>取消、更改時間的客人，下次預約需先付定金500元</li>
+       <li>如需改期請當天前三日告知，定金可保留三個月，逾期、取消定金不退還</li>
+      </ul>
+     </div>
+    </div>
+    <div class="info-card">
+     <h3>支付方式</h3>
+     <div class="info-card-content">
+      <ul class="info-list">
+       <li>現金</li>
+       <li>轉帳</li>
+       <li>IpassMoney</li>
+      </ul>
+     </div>
+    </div>
+    <div class="info-card">
+     <h3>工作室提供</h3>
+     <div class="info-card-content">
+      <ul class="info-list">
+       <li>獨立衛浴、獨立空間</li>
+       <li>私密處專用清潔露</li>
+       <li>隱形眼鏡盒</li>
+       <li>使用拋棄式毛巾、床巾、褲子、棉棒不回沾</li>
+      </ul>
+     </div>
+    </div>
+   </div>
+   <div class="tab-panel" id="before">
+    <h2 class="section-title">術前準備</h2>
+    <div style="display: flex; gap: 10px; margin-bottom: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+     <button class="before-sub-tab active" data-subtab="before-waxing" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #8B7E74; border: 1px solid #D4C4B7; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 美睫設計 </button>
+     <button class="before-sub-tab" data-subtab="before-lashes" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 睫毛管理 </button>
+     <button class="before-sub-tab" data-subtab="before-embroidery" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 紋繡 </button>
+     <button class="before-sub-tab" data-subtab="before-tinting" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 淡色 </button>
+    </div>
+    <div class="sub-tab-panel active" id="before-waxing">
+     <div class="info-card">
+      <h3>無法施作條件</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>私密處疾病、嚴重蟹足腫、除毛部位如有傷口、發炎狀況無法施作</li>
+        <li>孕媽咪需滿3個月且確定孕期穩定，無任何感染徵兆、醫生評估後同意才可進行除毛</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>術前準備</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>預約前請勿自行修剪、刮除毛髮，毛髮至少保留0.5-1公分</li>
+        <li>除毛前一週停止使用美白/果酸類保養品</li>
+        <li>如要玩水、曝曬、日光浴、其他重要行程，建議提早一週預約</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card highlight">
+      <h3>減低痛感小方法</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>前3小時避免飲用含咖啡因飲品</li>
+        <li>前一天勿熬夜、喝酒</li>
+        <li>生理期前3-5天痛感會明顯</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="before-lashes">
+     <div class="info-card">
+      <h3>無法施作條件</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>有任何眼疾、過敏、剛做眼部手術請勿預約</li>
+        <li>進行眼部雷射、雙眼皮手術三個月後才可預約</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>操作前注意</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>請勿畫眼妝</li>
+        <li>卸嫁接睫毛需加價400元</li>
+        <li>100%原生睫毛施作，效果因個人眼型而異</li>
+        <li>操作前請與美睫師做好溝通與評估，操作完成無法退費</li>
+        <li>睫毛過短、稀疏，可以擦睫毛滋養液再操作效果更好</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="before-embroidery">
+     <div class="info-card">
+      <h3>操作前注意</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>(紋繡) 術前準備事項建置中...</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="before-tinting">
+     <div class="info-card">
+      <h3>操作前注意</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>(淡色) 術前準備事項建置中...</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="tab-panel" id="after">
+    <h2 class="section-title">術後保養</h2>
+    <div style="display: flex; gap: 10px; margin-bottom: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+     <button class="after-sub-tab active" data-subtab="after-waxing" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #8B7E74; border: 1px solid #D4C4B7; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 美睫設計 </button>
+     <button class="after-sub-tab" data-subtab="after-lashes" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 睫毛管理 </button>
+     <button class="after-sub-tab" data-subtab="after-embroidery" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 紋繡 </button>
+     <button class="after-sub-tab" data-subtab="after-tinting" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 淡色 </button>
+    </div>
+    <div class="sub-tab-panel active" id="after-waxing">
+     <div class="info-card">
+      <h3>術後保養</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>除毛後6小時內勿碰生水勿使用熱水洗澡或泡澡，溫水清潔</li>
+        <li>避免穿著緊身衣物、過度搓揉、頻繁去觸碰，防止過度摩擦</li>
+        <li>除毛後皮膚若有小紅點為正常現象，消退時間依據個人體質</li>
+        <li>除毛後7天請避免美白、果酸類、酒精等刺激性產品</li>
+        <li>除毛後5-7天內請避免泡湯、三溫暖等行程</li>
+        <li>除毛後第3天需使用除毛後專用去角質，每週1-2次，以利細毛順利生長，避免倒插毛現象</li>
+        <li>美睫設計後需加強保濕</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>保養週期建議</h3>
+      <div class="info-card-content">
+       <p style="margin: 0; font-size: 14px; color: #8B7E74; line-height: 1.8; padding: 0 0 0 20px; position: relative;"><span style="position: absolute; left: 4px; color: #D4C4B7;">·</span> 建議每4-6週進行一次。4-6週內回除為毛髮最佳記憶點，週期內回除毛髮越來越細、越來越少</p>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="after-lashes">
+     <div class="info-card">
+      <h3>術後保養</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>4到6小時勿碰水，隔天可正常上妝和卸妝</li>
+        <li>3天內避免接觸高溫，如溫泉、烤箱、蒸氣室等</li>
+        <li>請勿揉眼睛、側睡、粗魯卸妝皆會影響睫毛整齊度</li>
+        <li>使用睫毛雨衣進行日常照顧，保持睫毛健康、整齊</li>
+        <li>如喜歡束感睫毛一定要搭配雨衣</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>保養週期建議</h3>
+      <div class="info-card-content">
+       <p style="margin: 0; font-size: 14px; color: #8B7E74; line-height: 1.8; padding: 0 0 0 20px; position: relative;"><span style="position: absolute; left: 4px; color: #D4C4B7;">·</span> 建議每4-8週操作一次。一個月可以定期整理，不會掉睫毛、傷睫毛請安心</p>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="after-embroidery">
+     <div class="info-card">
+      <h3>術後保養</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>(紋繡) 術後保養事項建置中...</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="after-tinting">
+     <div class="info-card">
+      <h3>術後保養</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>(淡色) 術後保養事項建置中...</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="tab-panel" id="faq">
+    <h2 class="section-title">常見問題</h2>
+    <div style="display: flex; gap: 10px; margin-bottom: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+     <button class="faq-sub-tab active" data-subtab="faq-waxing" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #8B7E74; border: 1px solid #D4C4B7; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 美睫設計FAQ </button>
+     <button class="faq-sub-tab" data-subtab="faq-lashes" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 睫毛管理FAQ </button>
+     <button class="faq-sub-tab" data-subtab="faq-embroidery" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 紋繡FAQ </button>
+     <button class="faq-sub-tab" data-subtab="faq-tinting" style="flex: 1; min-width: 110px; padding: 8px 16px; background: transparent; color: #B5ABA1; border: 1px solid #E8E3DE; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;"> 淡色FAQ </button>
+    </div>
+    <div class="sub-tab-panel active" id="faq-waxing">
+     <div class="info-card">
+      <h3>Q 生理期可以預約美睫設計嗎?</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>可以，提前告知會準備棉條</li>
+        <li>如不想可以接受改期不接受取消</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>Q 美睫設計會痛嗎?</h3>
+      <div class="info-card-content">
+       <p style="margin: 0; font-size: 14px; color: #8B7E74; line-height: 1.8; padding: 0 0 0 20px; position: relative;"><span style="position: absolute; left: 4px; color: #D4C4B7;">·</span> 與雷射比起來是相對低痛感的，如在毛髮生長週期內定期回除，毛髮將變細變軟，大大降低疼痛感</p>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>Q 為什麼要用美睫設計?</h3>
+      <div class="info-card-content">
+       <p style="margin: 0; font-size: 14px; color: #8B7E74; line-height: 1.8; padding: 0 0 0 20px; position: relative;"><span style="position: absolute; left: 4px; color: #D4C4B7;">·</span> 美睫設計是將毛囊裡的毛髮連根拔除，使新生長的毛髮越來越細，毛髮再次生長時也較無不適感。美睫設計可以帶走去角質產品無法帶走的老廢角質，皮膚會瞬間變白變嫩</p>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>Q 孕婦可以除毛嗎?</h3>
+      <div class="info-card-content">
+       <p style="margin: 0 0 12px 0; font-size: 14px; color: #8B7E74; line-height: 1.8; padding: 0 0 0 20px; position: relative;"><span style="position: absolute; left: 4px; color: #D4C4B7;">·</span> 當然可以</p>
+       <p style="margin: 0 0 8px 0; font-size: 13px; color: #6B5B4F; font-weight: 600; padding-left: 20px;">平時有美睫設計經驗</p>
+       <ul class="info-list" style="margin-bottom: 12px;">
+        <li>自然產：預產期前四週進行最後一次除毛</li>
+        <li>剖腹產：預產期前二週進行最後一次除毛</li>
+       </ul>
+       <p style="margin: 0 0 8px 0; font-size: 13px; color: #6B5B4F; font-weight: 600; padding-left: 20px;">無除毛經驗(上一次除毛已超過五個月前)</p>
+       <ul class="info-list">
+        <li>自然產：預產期前一個月進行最後一次除毛</li>
+        <li>剖腹產：預產期前三週進行最後一次除毛</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="faq-lashes">
+     <div class="info-card">
+      <h3>Q 什麼是睫毛管理?</h3>
+      <div class="info-card-content">
+       <p style="margin: 0; font-size: 14px; color: #8B7E74; line-height: 1.8; padding: 0 0 0 20px; position: relative;"><span style="position: absolute; left: 4px; color: #D4C4B7;">·</span> 睫毛管理是角蛋白的2.0升級版，產品與技術升級，使用合法且溫和的產品，不會破壞睫毛。<br><br>
+         一般店家只有軟化跟固定兩個流程而已，頂級精油睫毛管理是我為了防止睫毛容易受損，在施作會額外添加養護精華和精油，這些精華都是急救受損睫毛使用的精華，我拿來當保養程序。<br><br>
+         施作結束後還會再增添睫毛滋養雨衣加強防水定型(雨衣是台灣品牌，僅限美睫師購買販售客人)。還會教客人怎麼保養睫毛，使用的產品店內也有販售(都有公定價，我不會賣貴，別人也不會比較便宜，不會推銷請放心)。</p>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>Q 睫毛比較短或稀疏可以做嗎?</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>可以施作，但效果較不明顯</li>
+        <li>建議施作後搭配睫毛滋養液養睫毛</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>Q 做完會容易掉睫毛或有空洞嗎?</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>不會，掉睫毛與睫毛生長週期有關</li>
+        <li>平時揉眼睛、側睡也會導致睫毛掉落</li>
+       </ul>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>Q 施作後可以用睫毛夾嗎?</h3>
+      <div class="info-card-content">
+       <p style="margin: 0; font-size: 14px; color: #D96B6B; font-weight: 600; line-height: 1.8; padding: 0 0 0 20px; position: relative;"><span style="position: absolute; left: 4px; color: #D4C4B7;">·</span> 非常不建議，使用睫毛夾會使睫毛凌亂</p>
+      </div>
+     </div>
+     <div class="info-card">
+      <h3>Q 一定要加購睫毛雨衣嗎?</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>新舊客回作強烈建議加購</li>
+        <li>日常保養非常重要</li>
+        <li>如同燙捲髮後需要護理，沒有好好保養也會不整齊、毛躁</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="faq-embroidery">
+     <div class="info-card">
+      <h3>Q 紋繡常見問題?</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>解答建置中...</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <div class="sub-tab-panel" id="faq-tinting">
+     <div class="info-card">
+      <h3>Q 淡色常見問題?</h3>
+      <div class="info-card-content">
+       <ul class="info-list">
+        <li>解答建置中...</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+  </main>
+ </div>
+ <script>
+   const defaultConfig = {
+     store_name: "漫恩美學",
+     store_subtitle: "美睫設計．睫毛管理．紋繡．淡色",
+     background_color: "#FAF7F5",
+     surface_color: "#FFFFFF",
+     text_color: "#8B7E74",
+     primary_action_color: "#D4C4B7",
+     secondary_action_color: "#A89B91"
+   };
+
+
+   const config = { ...defaultConfig };
+
+
+   async function onConfigChange(cfg) {
+     document.getElementById('store-name').textContent = cfg.store_name || defaultConfig.store_name;
+     document.getElementById('store-subtitle').textContent = cfg.store_subtitle || defaultConfig.store_subtitle;
+
+
+     const backgroundColor = cfg.background_color || defaultConfig.background_color;
+     const surfaceColor = cfg.surface_color || defaultConfig.surface_color;
+     const textColor = cfg.text_color || defaultConfig.text_color;
+     const primaryActionColor = cfg.primary_action_color || defaultConfig.primary_action_color;
+     const secondaryActionColor = cfg.secondary_action_color || defaultConfig.secondary_action_color;
+
+
+     document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${adjustColor(backgroundColor, -10)} 50%, ${adjustColor(backgroundColor, 5)} 100%)`;
+    
+     document.querySelectorAll('.price-item, .info-card:not(.highlight)').forEach(el => {
+       el.style.background = `rgba(${hexToRgb(surfaceColor)}, 0.8)`;
+     });
+
+
+     document.querySelectorAll('.section-title, .price-item-name, .info-card h3, .plan-title, h1').forEach(el => {
+       el.style.color = textColor;
+     });
+
+
+     document.querySelectorAll('.contact-button, .quick-link-btn').forEach(btn => {
+       btn.style.background = `linear-gradient(135deg, ${primaryActionColor} 0%, ${adjustColor(primaryActionColor, -10)} 100%)`;
+     });
+
+
+     document.querySelectorAll('.tab').forEach(tab => {
+       if (!tab.classList.contains('active')) {
+         tab.style.color = secondaryActionColor;
+       }
+     });
+
+
+     document.querySelectorAll('.tab.active').forEach(tab => {
+       tab.style.color = textColor;
+     });
+
+
+     document.querySelectorAll('.plan-amount, .price-item-price').forEach(el => {
+       el.style.color = primaryActionColor;
+     });
+   }
+
+
+   function hexToRgb(hex) {
+     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+     return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '255, 255, 255';
+   }
+
+
+   function adjustColor(hex, percent) {
+     const num = parseInt(hex.replace('#', ''), 16);
+     const amt = Math.round(2.55 * percent);
+     const R = Math.min(255, Math.max(0, (num >> 16) + amt));
+     const G = Math.min(255, Math.max(0, (num >> 8 & 0x00FF) + amt));
+     const B = Math.min(255, Math.max(0, (num & 0x0000FF) + amt));
+     return '#' + (0x1000000 + (R << 16) + (G << 8) + B).toString(16).slice(1);
+   }
+
+
+   if (window.elementSdk) {
+     window.elementSdk.init({
+       defaultConfig,
+       onConfigChange,
+       mapToCapabilities: (cfg) => ({
+         recolorables: [
+           {
+             get: () => cfg.background_color || defaultConfig.background_color,
+             set: (value) => {
+               cfg.background_color = value;
+               window.elementSdk.setConfig({ background_color: value });
+             }
+           },
+           {
+             get: () => cfg.surface_color || defaultConfig.surface_color,
+             set: (value) => {
+               cfg.surface_color = value;
+               window.elementSdk.setConfig({ surface_color: value });
+             }
+           },
+           {
+             get: () => cfg.text_color || defaultConfig.text_color,
+             set: (value) => {
+               cfg.text_color = value;
+               window.elementSdk.setConfig({ text_color: value });
+             }
+           },
+           {
+             get: () => cfg.primary_action_color || defaultConfig.primary_action_color,
+             set: (value) => {
+               cfg.primary_action_color = value;
+               window.elementSdk.setConfig({ primary_action_color: value });
+             }
+           },
+           {
+             get: () => cfg.secondary_action_color || defaultConfig.secondary_action_color,
+             set: (value) => {
+               cfg.secondary_action_color = value;
+               window.elementSdk.setConfig({ secondary_action_color: value });
+             }
+           }
+         ],
+         borderables: [],
+         fontEditable: undefined,
+         fontSizeable: undefined
+       }),
+       mapToEditPanelValues: (cfg) => new Map([
+         ["store_name", cfg.store_name || defaultConfig.store_name],
+         ["store_subtitle", cfg.store_subtitle || defaultConfig.store_subtitle]
+       ])
+     });
+   }
+
+
+   // 處理主頁籤切換
+   document.querySelectorAll('.tab').forEach(tab => {
+     tab.addEventListener('click', () => {
+       const targetTab = tab.dataset.tab;
+      
+       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      
+       tab.classList.add('active');
+       document.getElementById(targetTab).classList.add('active');
+     });
+   });
+
+
+   // 處理各分類下的次頁籤切換
+   document.querySelectorAll('.price-sub-tab').forEach(subTab => {
+     subTab.addEventListener('click', () => {
+       const targetSubTab = subTab.dataset.subtab;
+      
+       document.querySelectorAll('.price-sub-tab').forEach(t => {
+         t.classList.remove('active');
+         t.style.background = 'transparent';
+         t.style.color = '#B5ABA1';
+         t.style.border = '1px solid #E8E3DE';
+       });
+      
+       document.querySelectorAll('#price .sub-tab-panel').forEach(p => p.classList.remove('active'));
+      
+       subTab.classList.add('active');
+       subTab.style.background = 'transparent';
+       subTab.style.color = '#8B7E74';
+       subTab.style.border = '1px solid #D4C4B7';
+      
+       document.getElementById(targetSubTab).classList.add('active');
+     });
+   });
+
+
+   document.querySelectorAll('.before-sub-tab').forEach(subTab => {
+     subTab.addEventListener('click', () => {
+       const targetSubTab = subTab.dataset.subtab;
+      
+       document.querySelectorAll('.before-sub-tab').forEach(t => {
+         t.classList.remove('active');
+         t.style.background = 'transparent';
+         t.style.color = '#B5ABA1';
+         t.style.border = '1px solid #E8E3DE';
+       });
+      
+       document.querySelectorAll('#before .sub-tab-panel').forEach(p => p.classList.remove('active'));
+      
+       subTab.classList.add('active');
+       subTab.style.background = 'transparent';
+       subTab.style.color = '#8B7E74';
+       subTab.style.border = '1px solid #D4C4B7';
+      
+       document.getElementById(targetSubTab).classList.add('active');
+     });
+   });
+
+
+   document.querySelectorAll('.after-sub-tab').forEach(subTab => {
+     subTab.addEventListener('click', () => {
+       const targetSubTab = subTab.dataset.subtab;
+      
+       document.querySelectorAll('.after-sub-tab').forEach(t => {
+         t.classList.remove('active');
+         t.style.background = 'transparent';
+         t.style.color = '#B5ABA1';
+         t.style.border = '1px solid #E8E3DE';
+       });
+      
+       document.querySelectorAll('#after .sub-tab-panel').forEach(p => p.classList.remove('active'));
+      
+       subTab.classList.add('active');
+       subTab.style.background = 'transparent';
+       subTab.style.color = '#8B7E74';
+       subTab.style.border = '1px solid #D4C4B7';
+      
+       document.getElementById(targetSubTab).classList.add('active');
+     });
+   });
+
+
+   document.querySelectorAll('.faq-sub-tab').forEach(subTab => {
+     subTab.addEventListener('click', () => {
+       const targetSubTab = subTab.dataset.subtab;
+      
+       document.querySelectorAll('.faq-sub-tab').forEach(t => {
+         t.classList.remove('active');
+         t.style.background = 'transparent';
+         t.style.color = '#B5ABA1';
+         t.style.border = '1px solid #E8E3DE';
+       });
+      
+       document.querySelectorAll('#faq .sub-tab-panel').forEach(p => p.classList.remove('active'));
+      
+       subTab.classList.add('active');
+       subTab.style.background = 'transparent';
+       subTab.style.color = '#8B7E74';
+       subTab.style.border = '1px solid #D4C4B7';
+      
+       document.getElementById(targetSubTab).classList.add('active');
+     });
+   });
+
+
+   // 初始載入設定
+   onConfigChange(config);
+ </script>
+</body>
+</html>
+
